@@ -95,6 +95,15 @@
     .small-muted { font-size: 12px; color: var(--muted); }
     .banner { background: var(--card2); border:1px solid var(--line); border-radius:12px; padding:10px 12px;
       font-size:13px; color: var(--muted); margin-bottom: 12px; }
+    .ib { margin-left:8px; width:22px; height:22px; border-radius:999px; border:1px solid var(--line);
+      background:var(--card2); color:var(--accent2); font-size:13px; font-weight:800; font-style:italic;
+      display:inline-flex; align-items:center; justify-content:center; cursor:pointer; flex:0 0 auto; }
+    .ib:active { transform: scale(.9); }
+    .overlay { position:fixed; inset:0; background:rgba(0,0,0,.6); display:flex; align-items:flex-end;
+      justify-content:center; z-index:50; }
+    .sheet { background:var(--card); border:1px solid var(--line); border-radius:20px 20px 0 0;
+      max-width:520px; width:100%; padding:20px 18px calc(30px + env(safe-area-inset-bottom)); animation: up .18s ease; }
+    @keyframes up { from { transform: translateY(40px); opacity:.4; } to { transform:none; opacity:1; } }
     .toggle { display:flex; gap:8px; }
     .toggle button { flex:1; }
   </style>
@@ -111,53 +120,53 @@ const GRADE_LABELS = ["Grade 4", "Grade 3", "Grade 2", "Grade 1", "Special Grade
 
 const GROUPS = [
   { key: "chest", day: "Day 1", name: "Chest", ladder: [
-    { ex: "Knee push-ups", reps: "3 × 8" },
-    { ex: "Regular push-ups", reps: "3 × 10" },
-    { ex: "Diamond push-ups", reps: "3 × 8" },
-    { ex: "One-arm push-ups", reps: "3 × 5 / side" },
-    { ex: "Handstand push-ups", reps: "3 × 5" },
+    { ex: "Knee push-ups", reps: "3 × 8", how: "On hands and knees, body straight from knees to head. Bend your elbows to lower your chest toward the floor, then push back up." },
+    { ex: "Regular push-ups", reps: "3 × 10", how: "Plank position, hands under shoulders. Lower until your chest nearly touches the floor (elbows ~45° from your body), then push up. Keep your body in one straight line." },
+    { ex: "Diamond push-ups", reps: "3 × 8", how: "A push-up with your hands together under your chest, thumbs and index fingers forming a diamond. Hits the triceps and inner chest harder." },
+    { ex: "One-arm push-ups", reps: "3 × 5 / side", how: "Push-up with one hand behind your back and feet spread wide for balance. Lower and press using a single arm." },
+    { ex: "Handstand push-ups", reps: "3 × 5", how: "Kick up into a handstand against a wall. Bend your elbows to lower your head toward the floor, then press back up." },
   ]},
   { key: "back", day: "Day 2", name: "Back", note: "Needs a bar or sturdy table.", ladder: [
-    { ex: "Table / towel rows", reps: "3 × 10" },
-    { ex: "Inverted rows", reps: "3 × 8" },
-    { ex: "Pull-ups", reps: "3 × 6" },
-    { ex: "Archer pull-ups", reps: "3 × 4 / side" },
-    { ex: "One-arm pull-up", reps: "3 × 2 / side" },
+    { ex: "Table / towel rows", reps: "3 × 10", how: "Lie under a sturdy table and grip the edge (or loop a towel around a pole). Keep your body straight and pull your chest up toward your hands." },
+    { ex: "Inverted rows", reps: "3 × 8", how: "Hang under a low bar, body straight with heels on the floor. Pull your chest to the bar, squeeze your shoulder blades, then lower slowly." },
+    { ex: "Pull-ups", reps: "3 × 6", how: "Hang from a bar with palms facing away. Pull until your chin clears the bar, then lower with control." },
+    { ex: "Archer pull-ups", reps: "3 × 4 / side", how: "A pull-up where you pull mostly toward one hand while the other arm stays nearly straight, shifting most of the load to one arm." },
+    { ex: "One-arm pull-up", reps: "3 × 2 / side", how: "A pull-up using a single arm. Extremely advanced — expect this to take a long time." },
   ]},
   { key: "shoulders", day: "Day 3", name: "Shoulders", ladder: [
-    { ex: "Wall handstand hold", reps: "3 × 20s" },
-    { ex: "Pike push-ups", reps: "3 × 8" },
-    { ex: "Elevated pike push-ups", reps: "3 × 8" },
-    { ex: "Wall handstand push-ups", reps: "3 × 5" },
-    { ex: "Free handstand push-ups", reps: "3 × 3" },
+    { ex: "Wall handstand hold", reps: "3 × 20s", how: "Kick up against a wall into a handstand and hold, bracing your core and pushing the floor away. Builds shoulder stability." },
+    { ex: "Pike push-ups", reps: "3 × 8", how: "From a downward-dog shape (hips high, body like an upside-down V), bend your elbows to lower the top of your head toward the floor, then press up." },
+    { ex: "Elevated pike push-ups", reps: "3 × 8", how: "Same as pike push-ups but with your feet on a chair or step, so more of your weight sits over your shoulders." },
+    { ex: "Wall handstand push-ups", reps: "3 × 5", how: "In a wall handstand, bend your elbows to lower your head toward the floor, then push back up." },
+    { ex: "Free handstand push-ups", reps: "3 × 3", how: "A handstand push-up with no wall — you balance and press at the same time. Advanced." },
   ]},
   { key: "arms", day: "Day 4", name: "Arms", ladder: [
-    { ex: "Bench dips (bent knees)", reps: "3 × 10" },
-    { ex: "Chair dips (legs straight)", reps: "3 × 10" },
-    { ex: "Parallel-bar dips", reps: "3 × 8" },
-    { ex: "Close-grip / uneven dips", reps: "3 × 6" },
-    { ex: "Ring / assisted one-arm dips", reps: "3 × 5" },
+    { ex: "Bench dips (bent knees)", reps: "3 × 10", how: "Hands on a chair behind you, knees bent and feet flat. Bend your elbows to lower your hips, then push back up." },
+    { ex: "Chair dips (legs straight)", reps: "3 × 10", how: "Same as bench dips but with your legs straight out in front, which adds load." },
+    { ex: "Parallel-bar dips", reps: "3 × 8", how: "Support yourself on two parallel bars, arms straight. Lower until your elbows reach ~90°, then press back up." },
+    { ex: "Close-grip / uneven dips", reps: "3 × 6", how: "Dips with hands closer together, or with one hand lower (on a band or step) to load one arm more." },
+    { ex: "Ring / assisted one-arm dips", reps: "3 × 5", how: "Dips on gymnastic rings (which wobble, adding difficulty), or working toward a single-arm dip with assistance." },
   ]},
   { key: "core", day: "Day 5", name: "Core", ladder: [
-    { ex: "Knee plank + dead bugs", reps: "3 × 30s" },
-    { ex: "Full plank + leg raises", reps: "3 × 12" },
-    { ex: "Hanging knee raises", reps: "3 × 10" },
-    { ex: "Hanging leg raises / L-sit", reps: "3 × 8" },
-    { ex: "Dragon flag / front lever", reps: "3 × 5" },
+    { ex: "Knee plank + dead bugs", reps: "3 × 30s", how: "Plank on knees and forearms, body straight. Dead bug: lie on your back and slowly extend the opposite arm and leg while keeping your lower back pressed flat." },
+    { ex: "Full plank + leg raises", reps: "3 × 12", how: "Forearm plank on your toes, body in a straight line. Leg raises: lie on your back and lift straight legs to vertical, lowering slowly without arching." },
+    { ex: "Hanging knee raises", reps: "3 × 10", how: "Hang from a bar and raise your knees toward your chest, then lower with control (no swinging)." },
+    { ex: "Hanging leg raises / L-sit", reps: "3 × 8", how: "Hang and raise straight legs to horizontal. L-sit: supported on your hands, hold both legs straight out in an L shape." },
+    { ex: "Dragon flag / front lever", reps: "3 × 5", how: "Advanced. Dragon flag: keep your body rigid and lower it slowly from a shoulder anchor. Front lever: hold your whole body horizontal hanging from a bar." },
   ]},
   { key: "legs", day: "Day 6", name: "Glutes & Legs", ladder: [
-    { ex: "Bodyweight squats", reps: "3 × 15" },
-    { ex: "Lunges / Bulgarian split squats", reps: "3 × 10 / side" },
-    { ex: "Assisted pistol squats", reps: "3 × 6 / side" },
-    { ex: "Pistol squats", reps: "3 × 5 / side" },
-    { ex: "Shrimp squats", reps: "3 × 4 / side" },
+    { ex: "Bodyweight squats", reps: "3 × 15", how: "Feet shoulder-width. Push your hips back and down until your thighs are about parallel to the floor, then stand. Keep heels down and chest up." },
+    { ex: "Lunges / Bulgarian split squats", reps: "3 × 10 / side", how: "Step forward and lower your back knee toward the floor. Bulgarian: rest your rear foot on a bench behind you and sink straight down." },
+    { ex: "Assisted pistol squats", reps: "3 × 6 / side", how: "A single-leg squat while lightly holding something for balance, with the other leg extended out in front." },
+    { ex: "Pistol squats", reps: "3 × 5 / side", how: "A full single-leg squat with your free leg held straight out in front — all the way down and back up unassisted." },
+    { ex: "Shrimp squats", reps: "3 × 4 / side", how: "A single-leg squat where you hold your rear foot behind you and lower that knee to the floor." },
   ]},
   { key: "calves", day: "Day 7", name: "Calves", ladder: [
-    { ex: "Two-leg calf raises", reps: "3 × 20" },
-    { ex: "Elevated two-leg calf raises", reps: "3 × 15" },
-    { ex: "Single-leg calf raises", reps: "3 × 12 / side" },
-    { ex: "Elevated single-leg calf raises", reps: "3 × 12 / side" },
-    { ex: "Explosive single-leg calf raises", reps: "3 × 10 / side" },
+    { ex: "Two-leg calf raises", reps: "3 × 20", how: "Stand tall and rise up onto the balls of both feet, then lower slowly back down." },
+    { ex: "Elevated two-leg calf raises", reps: "3 × 15", how: "Same, but with the balls of your feet on a step so your heels can drop below for a fuller stretch." },
+    { ex: "Single-leg calf raises", reps: "3 × 12 / side", how: "Calf raise on one foot at a time (hold something lightly for balance if needed)." },
+    { ex: "Elevated single-leg calf raises", reps: "3 × 12 / side", how: "One-foot calf raise with the ball of your foot on a step for full range of motion." },
+    { ex: "Explosive single-leg calf raises", reps: "3 × 10 / side", how: "Single-leg calf raises done explosively, hopping off the ball of your foot each rep." },
   ]},
 ];
 
@@ -169,8 +178,19 @@ const FLEX_LADDER = [
   "Near-full splits (small gap), pancake chest toward floor.",
   "FULL front splits (both sides) + middle split + full pancake.",
 ];
-const WARMUP = ["Arm circles", "Leg swings", "Cat-cow", "Hip circles", "Wrist prep"];
-const COOLDOWN = ["Pancake (3 min)", "Left split (3 min)", "Right split (3 min)", "Middle split (3 min)"];
+const WARMUP = [
+  { ex: "Arm circles", how: "Stretch your arms out to the sides and draw circles — forward for a bit, then backward — gradually making them bigger." },
+  { ex: "Leg swings", how: "Hold a wall for balance and swing one leg forward and back, then side to side. Switch legs. Keep it relaxed." },
+  { ex: "Cat-cow", how: "On hands and knees, arch your back up toward the ceiling like an angry cat, then dip it down while lifting your head (cow). Move slowly with your breathing." },
+  { ex: "Hip circles", how: "Hands on hips, feet shoulder-width. Make big, slow circles with your hips in one direction, then the other." },
+  { ex: "Wrist prep", how: "On all fours, gently rock your weight over your hands in different directions to warm up your wrists before push-ups." },
+];
+const COOLDOWN = [
+  { ex: "Pancake (3 min)", how: "Sit with your legs wide in a V. Hinge forward from your hips and reach your chest toward the floor, keeping your back as flat as you can. Breathe and ease in." },
+  { ex: "Left split (3 min)", how: "Left leg forward, right leg back, easing your hips toward the floor. Support yourself with hands or blocks. Go only to a strong-but-bearable stretch — never sharp pain." },
+  { ex: "Right split (3 min)", how: "Right leg forward, left leg back, easing your hips toward the floor. Support yourself with hands or blocks. Go only to a strong-but-bearable stretch — never sharp pain." },
+  { ex: "Middle split (3 min)", how: "Feet very wide, toes and knees pointing up. Slide your feet apart and ease your hips down, supporting yourself on your hands. Ease in slowly." },
+];
 
 const CHARACTERS = {
   sorcerer: [
@@ -221,13 +241,15 @@ function load() {
 function App() {
   const [s, setS] = useState(load);
   const [tab, setTab] = useState("training");
+  const [info, setInfo] = useState(null);
   useEffect(() => { localStorage.setItem("activeLife", JSON.stringify(s)); }, [s]);
   const up = (patch) => setS(prev => ({ ...prev, ...patch }));
   useEffect(() => { document.body.className = s.path === "curse" ? "curse" : "sorcerer"; }, [s.path]);
+  const openInfo = (title, how) => setInfo({ title, how });
 
   if (!s.onboarded) return <Onboarding s={s} up={up} />;
 
-  const props = { s, up, setTab };
+  const props = { s, up, setTab, openInfo };
   return (
     <>
       {tab === "profile" && <Profile {...props} />}
@@ -235,7 +257,23 @@ function App() {
       {tab === "quests" && <Quests {...props} />}
       {tab === "progress" && <Progress {...props} />}
       <Nav tab={tab} setTab={setTab} />
+      <InfoModal info={info} onClose={() => setInfo(null)} />
     </>
+  );
+}
+
+function InfoModal({ info, onClose }) {
+  if (!info) return null;
+  return (
+    <div className="overlay" onClick={onClose}>
+      <div className="sheet" onClick={e => e.stopPropagation()}>
+        <div className="row between">
+          <div style={{fontWeight:800, fontSize:18}}>{info.title}</div>
+          <button className="btn small ghost" onClick={onClose}>Close</button>
+        </div>
+        <div style={{marginTop:12, lineHeight:1.55}}>{info.how}</div>
+      </div>
+    </div>
   );
 }
 
@@ -295,7 +333,7 @@ function HeaderStats({ s }) {
   );
 }
 
-function Training({ s, up }) {
+function Training({ s, up, openInfo }) {
   const g = GROUPS[s.programDay];
   const gi = s.grades[g.key];
   const item = g.ladder[gi];
@@ -357,17 +395,28 @@ function Training({ s, up }) {
       </div>
 
       <div className="h2">Warm-up · flexibility</div>
-      <div className="card" onClick={() => setWarm(!warm)}>
-        <div className="row between">
-          <div>{WARMUP.join(" · ")}<div className="small-muted">~3–5 min mobility prep</div></div>
-          <div className={"check " + (warm?"on":"")}>{warm?"✓":""}</div>
+      <div className="card">
+        <div className="row between" style={{alignItems:"flex-start"}}>
+          <div style={{flex:1}}>
+            {WARMUP.map(m => (
+              <div key={m.ex} className="row" style={{padding:"3px 0"}}>
+                <span>{m.ex}</span>
+                <span className="ib" onClick={() => openInfo(m.ex, m.how)}>i</span>
+              </div>
+            ))}
+            <div className="small-muted" style={{marginTop:6}}>~3–5 min mobility prep · tap ⓘ for how-to</div>
+          </div>
+          <div className={"check " + (warm?"on":"")} onClick={() => setWarm(!warm)}>{warm?"✓":""}</div>
         </div>
       </div>
 
       <div className="h2">Main set</div>
       <div className="card" onClick={() => setMain(!main)}>
         <div className="row between">
-          <div><div style={{fontWeight:800}}>{item.ex}</div><div className="small-muted">{reps}</div></div>
+          <div>
+            <div className="row" style={{fontWeight:800}}>{item.ex}
+              <span className="ib" onClick={(e) => { e.stopPropagation(); openInfo(item.ex, item.how); }}>i</span></div>
+            <div className="small-muted">{reps}</div></div>
           <div className={"check " + (main?"on":"")}>{main?"✓":""}</div>
         </div>
       </div>
@@ -380,11 +429,18 @@ function Training({ s, up }) {
       </div>
 
       <div className="h2">Cooldown · flexibility <span className="grade">({GRADE_LABELS[s.flexGrade]})</span></div>
-      <div className="card" onClick={() => setCool(!cool)}>
+      <div className="card">
         <div className="row between" style={{alignItems:"flex-start"}}>
-          <div>{COOLDOWN.join(" · ")}
-            <div className="small-muted" style={{marginTop:6}}>Goal: {FLEX_LADDER[s.flexGrade]}</div></div>
-          <div className={"check " + (cool?"on":"")}>{cool?"✓":""}</div>
+          <div style={{flex:1}}>
+            {COOLDOWN.map(m => (
+              <div key={m.ex} className="row" style={{padding:"3px 0"}}>
+                <span>{m.ex}</span>
+                <span className="ib" onClick={() => openInfo(m.ex, m.how)}>i</span>
+              </div>
+            ))}
+            <div className="small-muted" style={{marginTop:6}}>Goal: {FLEX_LADDER[s.flexGrade]}</div>
+          </div>
+          <div className={"check " + (cool?"on":"")} onClick={() => setCool(!cool)}>{cool?"✓":""}</div>
         </div>
       </div>
 

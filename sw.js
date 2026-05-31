@@ -1,4 +1,4 @@
-const CACHE = "active-life-v1";
+const CACHE = "active-life-v2";
 const ASSETS = ["./", "./index.html", "./manifest.webmanifest", "./icon.svg"];
 
 self.addEventListener("install", (e) => {
