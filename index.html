@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no" />
+  <title>Active Life</title>
+  <meta name="theme-color" content="#0b0f1a" />
+  <link rel="manifest" href="./manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="./icon.svg" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="mobile-web-app-capable" content="yes" />
+
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    :root {
+      --bg: #0b0f1a;
+      --card: #141a2a;
+      --card2: #1b2236;
+      --text: #e8ecf6;
+      --muted: #8a93ad;
+      --line: #232c44;
+      --accent: #3b82f6;
+      --accent2: #60a5fa;
+      --good: #22c55e;
+      --warn: #f59e0b;
+      --danger: #ef4444;
+      --gem: #38bdf8;
+    }
+    body.curse {
+      --bg: #0c0710;
+      --card: #1a0f1e;
+      --card2: #241327;
+      --text: #f3e8f6;
+      --muted: #a98bb0;
+      --line: #3a1f40;
+      --accent: #b91c1c;
+      --accent2: #7c3aed;
+      --good: #84cc16;
+    }
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, system-ui, sans-serif;
+      overscroll-behavior: none; }
+    #root { max-width: 520px; margin: 0 auto; min-height: 100vh; }
+    .screen { padding: 16px 16px 96px; }
+    .h1 { font-size: 26px; font-weight: 800; margin: 4px 0 2px; }
+    .h2 { font-size: 18px; font-weight: 700; margin: 18px 0 10px; }
+    .muted { color: var(--muted); font-size: 13px; }
+    .card { background: var(--card); border: 1px solid var(--line); border-radius: 16px;
+      padding: 16px; margin-bottom: 12px; }
+    .row { display: flex; align-items: center; gap: 12px; }
+    .between { justify-content: space-between; }
+    .pill { font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px;
+      background: var(--card2); color: var(--accent2); border: 1px solid var(--line); }
+    .btn { appearance: none; border: none; border-radius: 14px; padding: 14px 16px;
+      font-size: 16px; font-weight: 800; color: white; background: var(--accent);
+      width: 100%; cursor: pointer; box-shadow: 0 4px 0 rgba(0,0,0,0.35); transition: transform .05s; }
+    .btn:active { transform: translateY(2px); box-shadow: 0 2px 0 rgba(0,0,0,0.35); }
+    .btn.ghost { background: var(--card2); color: var(--text); border: 1px solid var(--line);
+      box-shadow: none; }
+    .btn.good { background: var(--good); }
+    .btn.small { width: auto; padding: 9px 14px; font-size: 14px; border-radius: 12px; box-shadow: none; }
+    .stat { text-align: center; flex: 1; }
+    .stat .n { font-size: 22px; font-weight: 800; }
+    .stat .l { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .5px; }
+    .grade { font-weight: 800; color: var(--accent2); }
+    .check { width: 26px; height: 26px; border-radius: 8px; border: 2px solid var(--line);
+      display: flex; align-items: center; justify-content: center; font-size: 16px; flex: 0 0 auto;
+      background: var(--card2); }
+    .check.on { background: var(--good); border-color: var(--good); color: #07120a; }
+    .ex { padding: 12px 0; border-bottom: 1px solid var(--line); }
+    .ex:last-child { border-bottom: none; }
+    .nav { position: fixed; bottom: 0; left: 0; right: 0; max-width: 520px; margin: 0 auto;
+      display: flex; background: var(--card); border-top: 1px solid var(--line);
+      padding-bottom: env(safe-area-inset-bottom); }
+    .nav button { flex: 1; background: none; border: none; color: var(--muted); padding: 10px 0 12px;
+      font-size: 11px; font-weight: 700; cursor: pointer; display: flex; flex-direction: column;
+      align-items: center; gap: 3px; }
+    .nav button.active { color: var(--accent2); }
+    .nav .ico { font-size: 20px; }
+    .bar { height: 10px; background: var(--card2); border-radius: 999px; overflow: hidden; border: 1px solid var(--line); }
+    .bar > i { display: block; height: 100%; background: var(--accent); }
+    .chip { display:inline-block; font-size:12px; padding:3px 9px; border-radius:999px; background:var(--card2);
+      border:1px solid var(--line); margin: 3px 4px 0 0; }
+    .grid2 { display:grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .choice { border:2px solid var(--line); border-radius:16px; padding:18px; cursor:pointer; text-align:center; background:var(--card); }
+    .choice.sel { border-color: var(--accent); }
+    .lock { opacity: .45; }
+    input[type=text] { width:100%; padding:12px; border-radius:12px; border:1px solid var(--line);
+      background: var(--card2); color: var(--text); font-size:16px; }
+    .small-muted { font-size: 12px; color: var(--muted); }
+    .banner { background: var(--card2); border:1px solid var(--line); border-radius:12px; padding:10px 12px;
+      font-size:13px; color: var(--muted); margin-bottom: 12px; }
+    .toggle { display:flex; gap:8px; }
+    .toggle button { flex:1; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel" data-presets="env,react">
+const { useState, useEffect } = React;
+
+// ---------- DATA: muscle groups + rank ladders ----------
+// gradeIndex: 0=Grade 4 (easiest) ... 3=Grade 1 ... 4=Special Grade
+const GRADE_LABELS = ["Grade 4", "Grade 3", "Grade 2", "Grade 1", "Special Grade"];
+
+const GROUPS = [
+  { key: "chest", day: "Day 1", name: "Chest", ladder: [
+    { ex: "Knee push-ups", reps: "3 × 8" },
+    { ex: "Regular push-ups", reps: "3 × 10" },
+    { ex: "Diamond push-ups", reps: "3 × 8" },
+    { ex: "One-arm push-ups", reps: "3 × 5 / side" },
+    { ex: "Handstand push-ups", reps: "3 × 5" },
+  ]},
+  { key: "back", day: "Day 2", name: "Back", note: "Needs a bar or sturdy table.", ladder: [
+    { ex: "Table / towel rows", reps: "3 × 10" },
+    { ex: "Inverted rows", reps: "3 × 8" },
+    { ex: "Pull-ups", reps: "3 × 6" },
+    { ex: "Archer pull-ups", reps: "3 × 4 / side" },
+    { ex: "One-arm pull-up", reps: "3 × 2 / side" },
+  ]},
+  { key: "shoulders", day: "Day 3", name: "Shoulders", ladder: [
+    { ex: "Wall handstand hold", reps: "3 × 20s" },
+    { ex: "Pike push-ups", reps: "3 × 8" },
+    { ex: "Elevated pike push-ups", reps: "3 × 8" },
+    { ex: "Wall handstand push-ups", reps: "3 × 5" },
+    { ex: "Free handstand push-ups", reps: "3 × 3" },
+  ]},
+  { key: "arms", day: "Day 4", name: "Arms", ladder: [
+    { ex: "Bench dips (bent knees)", reps: "3 × 10" },
+    { ex: "Chair dips (legs straight)", reps: "3 × 10" },
+    { ex: "Parallel-bar dips", reps: "3 × 8" },
+    { ex: "Close-grip / uneven dips", reps: "3 × 6" },
+    { ex: "Ring / assisted one-arm dips", reps: "3 × 5" },
+  ]},
+  { key: "core", day: "Day 5", name: "Core", ladder: [
+    { ex: "Knee plank + dead bugs", reps: "3 × 30s" },
+    { ex: "Full plank + leg raises", reps: "3 × 12" },
+    { ex: "Hanging knee raises", reps: "3 × 10" },
+    { ex: "Hanging leg raises / L-sit", reps: "3 × 8" },
+    { ex: "Dragon flag / front lever", reps: "3 × 5" },
+  ]},
+  { key: "legs", day: "Day 6", name: "Glutes & Legs", ladder: [
+    { ex: "Bodyweight squats", reps: "3 × 15" },
+    { ex: "Lunges / Bulgarian split squats", reps: "3 × 10 / side" },
+    { ex: "Assisted pistol squats", reps: "3 × 6 / side" },
+    { ex: "Pistol squats", reps: "3 × 5 / side" },
+    { ex: "Shrimp squats", reps: "3 × 4 / side" },
+  ]},
+  { key: "calves", day: "Day 7", name: "Calves", ladder: [
+    { ex: "Two-leg calf raises", reps: "3 × 20" },
+    { ex: "Elevated two-leg calf raises", reps: "3 × 15" },
+    { ex: "Single-leg calf raises", reps: "3 × 12 / side" },
+    { ex: "Elevated single-leg calf raises", reps: "3 × 12 / side" },
+    { ex: "Explosive single-leg calf raises", reps: "3 × 10 / side" },
+  ]},
+];
+
+// Flexibility has its own rank (Special Grade = full pancake + all 3 splits)
+const FLEX_LADDER = [
+  "Seated fold, easy frog, wall splits — feel a mild stretch only.",
+  "Half splits, frog, pancake fold (rounded back ok).",
+  "Splits on blocks, pancake with a flatter back.",
+  "Near-full splits (small gap), pancake chest toward floor.",
+  "FULL front splits (both sides) + middle split + full pancake.",
+];
+const WARMUP = ["Arm circles", "Leg swings", "Cat-cow", "Hip circles", "Wrist prep"];
+const COOLDOWN = ["Pancake (3 min)", "Left split (3 min)", "Right split (3 min)", "Middle split (3 min)"];
+
+const CHARACTERS = {
+  sorcerer: [
+    { id: "yuji", name: "Yuji", cost: 0 },
+    { id: "megumi", name: "Megumi", cost: 60 },
+    { id: "nobara", name: "Nobara", cost: 90 },
+    { id: "maki", name: "Maki", cost: 150 },
+    { id: "gojo", name: "Gojo", cost: 300 },
+  ],
+  curse: [
+    { id: "mahito", name: "Mahito", cost: 0 },
+    { id: "jogo", name: "Jogo", cost: 60 },
+    { id: "choso", name: "Choso", cost: 90 },
+    { id: "geto", name: "Geto", cost: 150 },
+    { id: "sukuna", name: "Sukuna", cost: 300 },
+  ],
+};
+
+const SUGGEST_AT = 5; // sessions at a grade before app suggests ranking up
+
+// ---------- helpers ----------
+const todayStr = () => new Date().toISOString().slice(0, 10);
+const dayDiff = (a, b) => Math.round((new Date(b) - new Date(a)) / 86400000);
+const weekStart = () => { const d = new Date(); const day = (d.getDay()+6)%7; d.setDate(d.getDate()-day); return d.toISOString().slice(0,10); };
+
+const DEFAULT = {
+  onboarded: false, path: "sorcerer", name: "", character: "yuji",
+  programDay: 0,
+  grades: Object.fromEntries(GROUPS.map(g => [g.key, 0])),
+  flexGrade: 0,
+  gradeSessions: Object.fromEntries(GROUPS.map(g => [g.key, 0])),
+  xp: 0, gems: 0, streak: 0, lastCompleted: null,
+  history: [], unlocked: ["yuji", "mahito"],
+  questClaims: {},
+};
+
+function load() {
+  try {
+    const s = JSON.parse(localStorage.getItem("activeLife") || "null");
+    if (!s) return DEFAULT;
+    return { ...DEFAULT, ...s,
+      grades: { ...DEFAULT.grades, ...(s.grades||{}) },
+      gradeSessions: { ...DEFAULT.gradeSessions, ...(s.gradeSessions||{}) } };
+  } catch (e) { return DEFAULT; }
+}
+
+// ---------- App ----------
+function App() {
+  const [s, setS] = useState(load);
+  const [tab, setTab] = useState("training");
+  useEffect(() => { localStorage.setItem("activeLife", JSON.stringify(s)); }, [s]);
+  const up = (patch) => setS(prev => ({ ...prev, ...patch }));
+  useEffect(() => { document.body.className = s.path === "curse" ? "curse" : "sorcerer"; }, [s.path]);
+
+  if (!s.onboarded) return <Onboarding s={s} up={up} />;
+
+  const props = { s, up, setTab };
+  return (
+    <>
+      {tab === "profile" && <Profile {...props} />}
+      {tab === "training" && <Training {...props} />}
+      {tab === "quests" && <Quests {...props} />}
+      {tab === "progress" && <Progress {...props} />}
+      <Nav tab={tab} setTab={setTab} />
+    </>
+  );
+}
+
+function Onboarding({ s, up }) {
+  const [name, setName] = useState("");
+  const [path, setPath] = useState("sorcerer");
+  useEffect(() => { document.body.className = path; }, [path]);
+  return (
+    <div className="screen">
+      <div className="h1">Active Life</div>
+      <div className="muted">Train like a sorcerer. Or a curse.</div>
+
+      <div className="h2">Choose your path</div>
+      <div className="grid2">
+        <div className={"choice " + (path==="sorcerer"?"sel":"")} onClick={() => setPath("sorcerer")}>
+          <div style={{fontSize:30}}>🟦</div>
+          <div style={{fontWeight:800}}>Sorcerer</div>
+          <div className="small-muted">The good. Discipline & technique.</div>
+        </div>
+        <div className={"choice " + (path==="curse"?"sel":"")} onClick={() => setPath("curse")}>
+          <div style={{fontSize:30}}>🟥</div>
+          <div style={{fontWeight:800}}>Curse</div>
+          <div className="small-muted">The evil. Raw power & aggression.</div>
+        </div>
+      </div>
+
+      <div className="h2">Your name</div>
+      <input type="text" value={name} placeholder="e.g. Victor" onChange={e => setName(e.target.value)} />
+
+      <div style={{height:18}} />
+      <button className="btn" onClick={() => up({
+        onboarded: true, path, name: name.trim() || "Sorcerer",
+        character: path==="curse" ? "mahito" : "yuji",
+        unlocked: [path==="curse" ? "mahito" : "yuji"],
+      })}>Begin training</button>
+    </div>
+  );
+}
+
+function HeaderStats({ s }) {
+  const level = Math.floor(s.xp / 100) + 1;
+  const intoLevel = s.xp % 100;
+  return (
+    <div className="card">
+      <div className="row between">
+        <div><div style={{fontWeight:800,fontSize:18}}>{s.name}</div>
+          <div className="muted">Lv {level} · {s.path === "curse" ? "Curse" : "Sorcerer"}</div></div>
+        <div className="row" style={{gap:14}}>
+          <div style={{textAlign:"center"}}><div style={{fontWeight:800}}>🔥 {s.streak}</div><div className="small-muted">streak</div></div>
+          <div style={{textAlign:"center"}}><div style={{fontWeight:800,color:"var(--gem)"}}>💎 {s.gems}</div><div className="small-muted">gems</div></div>
+        </div>
+      </div>
+      <div style={{height:10}} />
+      <div className="bar"><i style={{width: intoLevel + "%"}} /></div>
+      <div className="small-muted" style={{marginTop:6}}>{intoLevel}/100 XP to Lv {level+1}</div>
+    </div>
+  );
+}
+
+function Training({ s, up }) {
+  const g = GROUPS[s.programDay];
+  const gi = s.grades[g.key];
+  const item = g.ladder[gi];
+  const [light, setLight] = useState(false);
+  const [warm, setWarm] = useState(false);
+  const [main, setMain] = useState(false);
+  const [bonus, setBonus] = useState(false);
+  const [cool, setCool] = useState(false);
+  const doneToday = s.lastCompleted === todayStr() && s._lastDay === s.programDay;
+
+  const canSuggest = s.gradeSessions[g.key] >= SUGGEST_AT && gi < 4;
+
+  const reps = light ? "Light day · half the work" : item.reps;
+
+  const complete = () => {
+    const baseXp = 20;
+    let xp = baseXp + (bonus ? 10 : 0);
+    if (light) xp = Math.round(xp / 2);
+    const today = todayStr();
+    let streak = s.streak;
+    if (s.lastCompleted !== today) {
+      if (s.lastCompleted && dayDiff(s.lastCompleted, today) === 1) streak += 1;
+      else if (!s.lastCompleted) streak = 1;
+      else streak = 1; // gap -> reset
+    }
+    const gems = s.gems + (light ? 3 : 5);
+    const gs = { ...s.gradeSessions, [g.key]: s.gradeSessions[g.key] + (light ? 0 : 1) };
+    up({
+      xp: s.xp + xp, gems, streak, lastCompleted: today, _lastDay: s.programDay,
+      gradeSessions: gs,
+      programDay: (s.programDay + 1) % 7,
+      history: [...s.history, { date: today, group: g.key, light, xp }].slice(-200),
+    });
+    setWarm(false); setMain(false); setBonus(false); setCool(false); setLight(false);
+  };
+
+  const rankUp = () => {
+    const ni = Math.min(4, s.grades[g.key] + 1);
+    up({ grades: { ...s.grades, [g.key]: ni },
+      gradeSessions: { ...s.gradeSessions, [g.key]: 0 } });
+  };
+
+  return (
+    <div className="screen">
+      <HeaderStats s={s} />
+
+      <div className="banner">⚠️ Muscle burn = good. Sharp / joint / stabbing pain = stop now.
+        Always stretch. Breaks are fine — split sessions across the day if you like.</div>
+
+      <div className="row between">
+        <div className="h1" style={{margin:0}}>{g.name}</div>
+        <span className="pill">{g.day} · <span className="grade">{GRADE_LABELS[gi]}</span></span>
+      </div>
+      {g.note && <div className="small-muted" style={{marginTop:4}}>{g.note}</div>}
+
+      <div className="toggle" style={{marginTop:12}}>
+        <button className={"btn small " + (light?"":"ghost")} onClick={() => setLight(true)}>🌙 Light day</button>
+        <button className={"btn small " + (light?"ghost":"")} onClick={() => setLight(false)}>💪 Full day</button>
+      </div>
+
+      <div className="h2">Warm-up · flexibility</div>
+      <div className="card" onClick={() => setWarm(!warm)}>
+        <div className="row between">
+          <div>{WARMUP.join(" · ")}<div className="small-muted">~3–5 min mobility prep</div></div>
+          <div className={"check " + (warm?"on":"")}>{warm?"✓":""}</div>
+        </div>
+      </div>
+
+      <div className="h2">Main set</div>
+      <div className="card" onClick={() => setMain(!main)}>
+        <div className="row between">
+          <div><div style={{fontWeight:800}}>{item.ex}</div><div className="small-muted">{reps}</div></div>
+          <div className={"check " + (main?"on":"")}>{main?"✓":""}</div>
+        </div>
+      </div>
+      <div className="card" onClick={() => setBonus(!bonus)} style={{borderStyle:"dashed"}}>
+        <div className="row between">
+          <div><div style={{fontWeight:800}}>Bonus muscle <span className="chip">+10 XP</span></div>
+            <div className="small-muted">Optional — train any extra area you feel up to.</div></div>
+          <div className={"check " + (bonus?"on":"")}>{bonus?"✓":""}</div>
+        </div>
+      </div>
+
+      <div className="h2">Cooldown · flexibility <span className="grade">({GRADE_LABELS[s.flexGrade]})</span></div>
+      <div className="card" onClick={() => setCool(!cool)}>
+        <div className="row between" style={{alignItems:"flex-start"}}>
+          <div>{COOLDOWN.join(" · ")}
+            <div className="small-muted" style={{marginTop:6}}>Goal: {FLEX_LADDER[s.flexGrade]}</div></div>
+          <div className={"check " + (cool?"on":"")}>{cool?"✓":""}</div>
+        </div>
+      </div>
+
+      {canSuggest && (
+        <div className="card" style={{borderColor:"var(--accent)"}}>
+          <div style={{fontWeight:800}}>Ready to rank up? 🎯</div>
+          <div className="small-muted" style={{margin:"4px 0 10px"}}>
+            You've trained {g.name} {s.gradeSessions[g.key]}× at {GRADE_LABELS[gi]}.
+            Next: {g.ladder[gi+1].ex} ({GRADE_LABELS[gi+1]}).</div>
+          <button className="btn small" onClick={rankUp}>Advance to {GRADE_LABELS[gi+1]}</button>
+        </div>
+      )}
+
+      <div style={{height:8}} />
+      <button className="btn good" disabled={!(warm && main && cool)}
+        style={{opacity: (warm && main && cool)?1:.5}}
+        onClick={complete}>
+        {warm && main && cool ? "Complete session ✓" : "Tick warm-up, main & cooldown"}
+      </button>
+      {doneToday && <div className="small-muted" style={{textAlign:"center",marginTop:8}}>Streak already counted today — extra sessions still earn XP.</div>}
+    </div>
+  );
+}
+
+function Quests({ s, up }) {
+  const ws = weekStart();
+  const week = s.history.filter(h => h.date >= ws);
+  const sessions = new Set(week.map(h => h.date)).size;
+  const QUESTS = [
+    { id: "train4", label: "Train on 4 days this week", goal: 4, val: sessions, reward: 30 },
+    { id: "train6", label: "Train on 6 days this week", goal: 6, val: sessions, reward: 60 },
+    { id: "bonus3", label: "Earn 3 bonus-muscle XP this week", goal: 3,
+      val: week.filter(h => h.xp >= 30 && !h.light).length, reward: 25 },
+  ];
+  const claim = (q) => {
+    if (s.questClaims[q.id + ws]) return;
+    up({ gems: s.gems + q.reward, questClaims: { ...s.questClaims, [q.id + ws]: true } });
+  };
+  const chars = CHARACTERS[s.path];
+  const buy = (c) => {
+    if (s.unlocked.includes(c.id) || s.gems < c.cost) return;
+    up({ gems: s.gems - c.cost, unlocked: [...s.unlocked, c.id] });
+  };
+
+  return (
+    <div className="screen">
+      <HeaderStats s={s} />
+      <div className="h1">Quests</div>
+      <div className="muted">Weekly — resets Monday. XP comes only from real training; gems buy cosmetics.</div>
+      {QUESTS.map(q => {
+        const done = q.val >= q.goal;
+        const claimed = s.questClaims[q.id + ws];
+        return (
+          <div className="card" key={q.id}>
+            <div className="row between"><div style={{fontWeight:700}}>{q.label}</div>
+              <span className="chip">💎 {q.reward}</span></div>
+            <div className="bar" style={{margin:"10px 0 6px"}}><i style={{width: Math.min(100, q.val/q.goal*100)+"%"}} /></div>
+            <div className="row between">
+              <span className="small-muted">{Math.min(q.val,q.goal)}/{q.goal}</span>
+              <button className="btn small" disabled={!done || claimed}
+                style={{opacity:(done && !claimed)?1:.5}} onClick={() => claim(q)}>
+                {claimed ? "Claimed" : done ? "Claim" : "Locked"}</button>
+            </div>
+          </div>
+        );
+      })}
+
+      <div className="h2">Characters ({s.path === "curse" ? "Curses" : "Sorcerers"})</div>
+      <div className="muted">Cosmetic only — pure flex, no training advantage.</div>
+      {chars.map(c => {
+        const owned = s.unlocked.includes(c.id);
+        const sel = s.character === c.id;
+        return (
+          <div className={"card " + (owned?"":"lock")} key={c.id}>
+            <div className="row between">
+              <div style={{fontWeight:800}}>{c.name} {sel && <span className="chip">equipped</span>}</div>
+              {owned
+                ? <button className="btn small ghost" onClick={() => up({character:c.id})} disabled={sel}>{sel?"✓":"Equip"}</button>
+                : <button className="btn small" onClick={() => buy(c)} disabled={s.gems<c.cost}>💎 {c.cost}</button>}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function Progress({ s, up }) {
+  const avg = GROUPS.reduce((a,g)=>a+s.grades[g.key],0)/GROUPS.length;
+  const overallStrength = GRADE_LABELS[Math.min(...GROUPS.map(g=>s.grades[g.key]))];
+  const ws = weekStart();
+  const week = new Set(s.history.filter(h=>h.date>=ws).map(h=>h.date)).size;
+  return (
+    <div className="screen">
+      <div className="h1">Progress</div>
+      <div className="muted">Two tracks, kept honest and separate.</div>
+
+      <div className="card">
+        <div className="row">
+          <div className="stat"><div className="n">🔥 {s.streak}</div><div className="l">Streak (consistency)</div></div>
+          <div className="stat"><div className="n">{overallStrength}</div><div className="l">Rank (capability)</div></div>
+        </div>
+        <div style={{height:10}} />
+        <div className="row">
+          <div className="stat"><div className="n">{week}/7</div><div className="l">This week</div></div>
+          <div className="stat"><div className="n">{s.history.length}</div><div className="l">Total sessions</div></div>
+        </div>
+      </div>
+
+      <div className="h2">Capability — rank per area</div>
+      {GROUPS.map(g => (
+        <div className="card" key={g.key}>
+          <div className="row between">
+            <div style={{fontWeight:700}}>{g.name}</div>
+            <span className="grade">{GRADE_LABELS[s.grades[g.key]]}</span>
+          </div>
+          <div className="bar" style={{margin:"8px 0 4px"}}><i style={{width:(s.grades[g.key]/4*100)+"%"}} /></div>
+          <div className="small-muted">Now: {g.ladder[s.grades[g.key]].ex}</div>
+        </div>
+      ))}
+
+      <div className="card">
+        <div className="row between">
+          <div style={{fontWeight:700}}>Flexibility</div>
+          <span className="grade">{GRADE_LABELS[s.flexGrade]}</span>
+        </div>
+        <div className="bar" style={{margin:"8px 0 6px"}}><i style={{width:(s.flexGrade/4*100)+"%"}} /></div>
+        <div className="small-muted">{FLEX_LADDER[s.flexGrade]}</div>
+        <div className="toggle" style={{marginTop:10}}>
+          <button className="btn small ghost" disabled={s.flexGrade<=0}
+            onClick={()=>up({flexGrade:Math.max(0,s.flexGrade-1)})}>−</button>
+          <button className="btn small" disabled={s.flexGrade>=4}
+            onClick={()=>up({flexGrade:Math.min(4,s.flexGrade+1)})}>Rank up flexibility</button>
+        </div>
+        <div className="small-muted" style={{marginTop:8}}>📅 Weekly reminder: test how close you are to your splits & pancake. Move the rank only when range of motion genuinely improves — there's no countdown.</div>
+      </div>
+    </div>
+  );
+}
+
+function Profile({ s, up, setTab }) {
+  const level = Math.floor(s.xp / 100) + 1;
+  const reset = () => { if (confirm("Reset all progress?")) { localStorage.removeItem("activeLife"); location.reload(); } };
+  return (
+    <div className="screen">
+      <div className="h1">Profile</div>
+      <div className="card">
+        <div className="row between">
+          <div>
+            <div style={{fontWeight:800,fontSize:20}}>{s.name}</div>
+            <div className="muted">{s.path === "curse" ? "Curse" : "Sorcerer"} · Lv {level}</div>
+            <div className="small-muted" style={{marginTop:4}}>Equipped: {(CHARACTERS[s.path].find(c=>c.id===s.character)||{}).name}</div>
+          </div>
+          <div style={{fontSize:40}}>{s.path==="curse"?"🟥":"🟦"}</div>
+        </div>
+      </div>
+
+      <div className="card">
+        <div className="row"><div className="stat"><div className="n">{s.xp}</div><div className="l">Total XP</div></div>
+          <div className="stat"><div className="n">💎 {s.gems}</div><div className="l">Gems</div></div>
+          <div className="stat"><div className="n">🔥 {s.streak}</div><div className="l">Streak</div></div></div>
+      </div>
+
+      <div className="h2">Switch path</div>
+      <div className="muted">Changes your theme & character roster (cosmetic).</div>
+      <div className="toggle" style={{marginTop:10}}>
+        <button className={"btn small "+(s.path==="sorcerer"?"":"ghost")}
+          onClick={()=>up({path:"sorcerer", character: s.unlocked.includes("yuji")?"yuji":"yuji", unlocked:[...new Set([...s.unlocked,"yuji"])]})}>🟦 Sorcerer</button>
+        <button className={"btn small "+(s.path==="curse"?"":"ghost")}
+          onClick={()=>up({path:"curse", character: s.unlocked.includes("mahito")?"mahito":"mahito", unlocked:[...new Set([...s.unlocked,"mahito"])]})}>🟥 Curse</button>
+      </div>
+
+      <div style={{height:18}} />
+      <button className="btn ghost" onClick={reset}>Reset progress</button>
+    </div>
+  );
+}
+
+function Nav({ tab, setTab }) {
+  const items = [
+    { id: "profile", ico: "👤", label: "Profile" },
+    { id: "training", ico: "🥋", label: "Training" },
+    { id: "quests", ico: "⚔️", label: "Quests" },
+    { id: "progress", ico: "📈", label: "Progress" },
+  ];
+  return (
+    <div className="nav">
+      {items.map(i => (
+        <button key={i.id} className={tab===i.id?"active":""} onClick={() => setTab(i.id)}>
+          <span className="ico">{i.ico}</span>{i.label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(()=>{}));
+}
+  </script>
+</body>
+</html>
