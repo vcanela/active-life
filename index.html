@@ -640,7 +640,23 @@ function Nav({ tab, setTab }) {
 ReactDOM.createRoot(document.getElementById("root")).render(<App />);
 
 if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => navigator.serviceWorker.register("./sw.js").catch(()=>{}));
+  let reloading = false;
+  navigator.serviceWorker.addEventListener("controllerchange", () => {
+    if (reloading) return;
+    reloading = true;
+    location.reload();
+  });
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js").then((reg) => {
+      reg.addEventListener("updatefound", () => {
+        const sw = reg.installing;
+        if (sw) sw.addEventListener("statechange", () => {
+          if (sw.state === "installed" && navigator.serviceWorker.controller) sw.postMessage("skip");
+        });
+      });
+      setInterval(() => reg.update(), 60 * 60 * 1000); // check hourly while open
+    }).catch(() => {});
+  });
 }
   </script>
 </body>
