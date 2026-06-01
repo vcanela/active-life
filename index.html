@@ -121,7 +121,7 @@ const GRADE_LABELS = ["Grade 4", "Grade 3", "Grade 2", "Grade 1", "Special Grade
 const GROUPS = [
   { key: "chest", day: "Day 1", name: "Chest", ladder: [
     { ex: "Knee push-ups", reps: "3 × 8", how: "On hands and knees, body straight from knees to head. Bend your elbows to lower your chest toward the floor, then push back up." },
-    { ex: "Regular push-ups", reps: "3 × 10", how: "Plank position, hands under shoulders. Lower until your chest nearly touches the floor (elbows ~45° from your body), then push up. Keep your body in one straight line." },
+    { ex: "Regular push-ups", reps: "3 × 10", dia: "pushup", how: "Plank position, hands under shoulders. Lower until your chest nearly touches the floor (elbows ~45° from your body), then push up. Keep your body in one straight line." },
     { ex: "Diamond push-ups", reps: "3 × 8", how: "A push-up with your hands together under your chest, thumbs and index fingers forming a diamond. Hits the triceps and inner chest harder." },
     { ex: "One-arm push-ups", reps: "3 × 5 / side", how: "Push-up with one hand behind your back and feet spread wide for balance. Lower and press using a single arm." },
     { ex: "Handstand push-ups", reps: "3 × 5", how: "Kick up into a handstand against a wall. Bend your elbows to lower your head toward the floor, then press back up." },
@@ -155,7 +155,7 @@ const GROUPS = [
     { ex: "Dragon flag / front lever", reps: "3 × 5", how: "Advanced. Dragon flag: keep your body rigid and lower it slowly from a shoulder anchor. Front lever: hold your whole body horizontal hanging from a bar." },
   ]},
   { key: "legs", day: "Day 6", name: "Glutes & Legs", ladder: [
-    { ex: "Bodyweight squats", reps: "3 × 15", how: "Feet shoulder-width. Push your hips back and down until your thighs are about parallel to the floor, then stand. Keep heels down and chest up." },
+    { ex: "Bodyweight squats", reps: "3 × 15", dia: "squat", how: "Feet shoulder-width. Push your hips back and down until your thighs are about parallel to the floor, then stand. Keep heels down and chest up." },
     { ex: "Lunges / Bulgarian split squats", reps: "3 × 10 / side", how: "Step forward and lower your back knee toward the floor. Bulgarian: rest your rear foot on a bench behind you and sink straight down." },
     { ex: "Assisted pistol squats", reps: "3 × 6 / side", how: "A single-leg squat while lightly holding something for balance, with the other leg extended out in front." },
     { ex: "Pistol squats", reps: "3 × 5 / side", how: "A full single-leg squat with your free leg held straight out in front — all the way down and back up unassisted." },
@@ -186,7 +186,7 @@ const WARMUP = [
   { ex: "Wrist prep", how: "On all fours, gently rock your weight over your hands in different directions to warm up your wrists before push-ups." },
 ];
 const COOLDOWN = [
-  { ex: "Pancake (3 min)", how: "Sit with your legs wide in a V. Hinge forward from your hips and reach your chest toward the floor, keeping your back as flat as you can. Breathe and ease in." },
+  { ex: "Pancake (3 min)", dia: "pancake", how: "Sit with your legs wide in a V. Hinge forward from your hips and reach your chest toward the floor, keeping your back as flat as you can. Breathe and ease in." },
   { ex: "Left split (3 min)", how: "Left leg forward, right leg back, easing your hips toward the floor. Support yourself with hands or blocks. Go only to a strong-but-bearable stretch — never sharp pain." },
   { ex: "Right split (3 min)", how: "Right leg forward, left leg back, easing your hips toward the floor. Support yourself with hands or blocks. Go only to a strong-but-bearable stretch — never sharp pain." },
   { ex: "Middle split (3 min)", how: "Feet very wide, toes and knees pointing up. Slide your feet apart and ease your hips down, supporting yourself on your hands. Ease in slowly." },
@@ -245,7 +245,7 @@ function App() {
   useEffect(() => { localStorage.setItem("activeLife", JSON.stringify(s)); }, [s]);
   const up = (patch) => setS(prev => ({ ...prev, ...patch }));
   useEffect(() => { document.body.className = s.path === "curse" ? "curse" : "sorcerer"; }, [s.path]);
-  const openInfo = (title, how) => setInfo({ title, how });
+  const openInfo = (title, how, dia) => setInfo({ title, how, dia });
 
   if (!s.onboarded) return <Onboarding s={s} up={up} />;
 
@@ -262,6 +262,67 @@ function App() {
   );
 }
 
+function Diagram({ type }) {
+  const C = { fill: "none", stroke: "currentColor", strokeWidth: 3, strokeLinecap: "round", strokeLinejoin: "round" };
+  const cap = { fill: "currentColor", fontSize: 11, textAnchor: "middle", stroke: "none" };
+  const box = { width: "100%", maxHeight: 175, color: "var(--accent2)" };
+
+  if (type === "squat") return (
+    <svg viewBox="0 0 240 135" style={box}>
+      <circle cx="55" cy="22" r="10" {...C} />
+      <line x1="55" y1="32" x2="55" y2="78" {...C} />
+      <line x1="55" y1="45" x2="38" y2="62" {...C} />
+      <line x1="55" y1="45" x2="72" y2="62" {...C} />
+      <line x1="55" y1="78" x2="46" y2="114" {...C} />
+      <line x1="55" y1="78" x2="64" y2="114" {...C} />
+      <line x1="38" y1="114" x2="70" y2="114" {...C} />
+      <text x="55" y="131" {...cap}>start</text>
+      <line x1="102" y1="68" x2="128" y2="68" {...C} />
+      <polyline points="120,61 130,68 120,75" {...C} />
+      <circle cx="165" cy="46" r="10" {...C} />
+      <line x1="166" y1="56" x2="172" y2="84" {...C} />
+      <line x1="170" y1="64" x2="200" y2="60" {...C} />
+      <line x1="172" y1="84" x2="205" y2="90" {...C} />
+      <line x1="205" y1="90" x2="203" y2="114" {...C} />
+      <line x1="190" y1="114" x2="216" y2="114" {...C} />
+      <text x="182" y="131" {...cap}>bottom (thighs parallel)</text>
+    </svg>
+  );
+
+  if (type === "pushup") return (
+    <svg viewBox="0 0 240 105" style={box}>
+      <line x1="14" y1="80" x2="112" y2="80" {...C} strokeWidth="2" />
+      <circle cx="28" cy="40" r="9" {...C} />
+      <line x1="36" y1="44" x2="96" y2="68" {...C} />
+      <line x1="96" y1="68" x2="106" y2="72" {...C} />
+      <line x1="46" y1="49" x2="46" y2="79" {...C} />
+      <text x="60" y="98" {...cap}>up — arms straight</text>
+      <line x1="134" y1="80" x2="232" y2="80" {...C} strokeWidth="2" />
+      <circle cx="150" cy="56" r="9" {...C} />
+      <line x1="158" y1="60" x2="218" y2="74" {...C} />
+      <line x1="218" y1="74" x2="228" y2="77" {...C} />
+      <polyline points="166,63 158,79 172,79" {...C} />
+      <text x="182" y="98" {...cap}>down — chest low</text>
+    </svg>
+  );
+
+  if (type === "pancake") return (
+    <svg viewBox="0 0 170 122" style={box}>
+      <line x1="85" y1="32" x2="28" y2="100" {...C} />
+      <line x1="85" y1="32" x2="142" y2="100" {...C} />
+      <line x1="20" y1="100" x2="36" y2="100" {...C} />
+      <line x1="134" y1="100" x2="150" y2="100" {...C} />
+      <line x1="85" y1="36" x2="85" y2="78" {...C} />
+      <circle cx="85" cy="90" r="11" {...C} />
+      <line x1="85" y1="55" x2="58" y2="86" {...C} />
+      <line x1="85" y1="55" x2="112" y2="86" {...C} />
+      <text x="85" y="118" {...cap}>legs wide · fold chest down</text>
+    </svg>
+  );
+
+  return null;
+}
+
 function InfoModal({ info, onClose }) {
   if (!info) return null;
   return (
@@ -271,6 +332,9 @@ function InfoModal({ info, onClose }) {
           <div style={{fontWeight:800, fontSize:18}}>{info.title}</div>
           <button className="btn small ghost" onClick={onClose}>Close</button>
         </div>
+        {info.dia && <div style={{margin:"14px 0 2px", background:"var(--card2)",
+          border:"1px solid var(--line)", borderRadius:12, padding:"10px 8px"}}>
+          <Diagram type={info.dia} /></div>}
         <div style={{marginTop:12, lineHeight:1.55}}>{info.how}</div>
       </div>
     </div>
@@ -401,7 +465,7 @@ function Training({ s, up, openInfo }) {
             {WARMUP.map(m => (
               <div key={m.ex} className="row" style={{padding:"3px 0"}}>
                 <span>{m.ex}</span>
-                <span className="ib" onClick={() => openInfo(m.ex, m.how)}>i</span>
+                <span className="ib" onClick={() => openInfo(m.ex, m.how, m.dia)}>i</span>
               </div>
             ))}
             <div className="small-muted" style={{marginTop:6}}>~3–5 min mobility prep · tap ⓘ for how-to</div>
@@ -415,7 +479,7 @@ function Training({ s, up, openInfo }) {
         <div className="row between">
           <div>
             <div className="row" style={{fontWeight:800}}>{item.ex}
-              <span className="ib" onClick={(e) => { e.stopPropagation(); openInfo(item.ex, item.how); }}>i</span></div>
+              <span className="ib" onClick={(e) => { e.stopPropagation(); openInfo(item.ex, item.how, item.dia); }}>i</span></div>
             <div className="small-muted">{reps}</div></div>
           <div className={"check " + (main?"on":"")}>{main?"✓":""}</div>
         </div>
@@ -435,7 +499,7 @@ function Training({ s, up, openInfo }) {
             {COOLDOWN.map(m => (
               <div key={m.ex} className="row" style={{padding:"3px 0"}}>
                 <span>{m.ex}</span>
-                <span className="ib" onClick={() => openInfo(m.ex, m.how)}>i</span>
+                <span className="ib" onClick={() => openInfo(m.ex, m.how, m.dia)}>i</span>
               </div>
             ))}
             <div className="small-muted" style={{marginTop:6}}>Goal: {FLEX_LADDER[s.flexGrade]}</div>
