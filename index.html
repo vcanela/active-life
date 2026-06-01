@@ -120,53 +120,53 @@ const GRADE_LABELS = ["Grade 4", "Grade 3", "Grade 2", "Grade 1", "Special Grade
 
 const GROUPS = [
   { key: "chest", day: "Day 1", name: "Chest", ladder: [
-    { ex: "Knee push-ups", reps: "3 × 8", how: "On hands and knees, body straight from knees to head. Bend your elbows to lower your chest toward the floor, then push back up." },
+    { ex: "Knee push-ups", reps: "3 × 8", dia: "kneepushup", how: "On hands and knees, body straight from knees to head. Bend your elbows to lower your chest toward the floor, then push back up." },
     { ex: "Regular push-ups", reps: "3 × 10", dia: "pushup", how: "Plank position, hands under shoulders. Lower until your chest nearly touches the floor (elbows ~45° from your body), then push up. Keep your body in one straight line." },
-    { ex: "Diamond push-ups", reps: "3 × 8", how: "A push-up with your hands together under your chest, thumbs and index fingers forming a diamond. Hits the triceps and inner chest harder." },
+    { ex: "Diamond push-ups", reps: "3 × 8", dia: "pushup", how: "A push-up with your hands together under your chest, thumbs and index fingers forming a diamond. Hits the triceps and inner chest harder." },
     { ex: "One-arm push-ups", reps: "3 × 5 / side", how: "Push-up with one hand behind your back and feet spread wide for balance. Lower and press using a single arm." },
     { ex: "Handstand push-ups", reps: "3 × 5", how: "Kick up into a handstand against a wall. Bend your elbows to lower your head toward the floor, then press back up." },
   ]},
   { key: "back", day: "Day 2", name: "Back", note: "Needs a bar or sturdy table.", ladder: [
-    { ex: "Table / towel rows", reps: "3 × 10", how: "Lie under a sturdy table and grip the edge (or loop a towel around a pole). Keep your body straight and pull your chest up toward your hands." },
-    { ex: "Inverted rows", reps: "3 × 8", how: "Hang under a low bar, body straight with heels on the floor. Pull your chest to the bar, squeeze your shoulder blades, then lower slowly." },
-    { ex: "Pull-ups", reps: "3 × 6", how: "Hang from a bar with palms facing away. Pull until your chin clears the bar, then lower with control." },
+    { ex: "Table / towel rows", reps: "3 × 10", dia: "row", how: "Lie under a sturdy table and grip the edge (or loop a towel around a pole). Keep your body straight and pull your chest up toward your hands." },
+    { ex: "Inverted rows", reps: "3 × 8", dia: "row", how: "Hang under a low bar, body straight with heels on the floor. Pull your chest to the bar, squeeze your shoulder blades, then lower slowly." },
+    { ex: "Pull-ups", reps: "3 × 6", dia: "pullup", how: "Hang from a bar with palms facing away. Pull until your chin clears the bar, then lower with control." },
     { ex: "Archer pull-ups", reps: "3 × 4 / side", how: "A pull-up where you pull mostly toward one hand while the other arm stays nearly straight, shifting most of the load to one arm." },
     { ex: "One-arm pull-up", reps: "3 × 2 / side", how: "A pull-up using a single arm. Extremely advanced — expect this to take a long time." },
   ]},
   { key: "shoulders", day: "Day 3", name: "Shoulders", ladder: [
     { ex: "Wall handstand hold", reps: "3 × 20s", how: "Kick up against a wall into a handstand and hold, bracing your core and pushing the floor away. Builds shoulder stability." },
-    { ex: "Pike push-ups", reps: "3 × 8", how: "From a downward-dog shape (hips high, body like an upside-down V), bend your elbows to lower the top of your head toward the floor, then press up." },
-    { ex: "Elevated pike push-ups", reps: "3 × 8", how: "Same as pike push-ups but with your feet on a chair or step, so more of your weight sits over your shoulders." },
+    { ex: "Pike push-ups", reps: "3 × 8", dia: "pike", how: "From a downward-dog shape (hips high, body like an upside-down V), bend your elbows to lower the top of your head toward the floor, then press up." },
+    { ex: "Elevated pike push-ups", reps: "3 × 8", dia: "pike", how: "Same as pike push-ups but with your feet on a chair or step, so more of your weight sits over your shoulders." },
     { ex: "Wall handstand push-ups", reps: "3 × 5", how: "In a wall handstand, bend your elbows to lower your head toward the floor, then push back up." },
     { ex: "Free handstand push-ups", reps: "3 × 3", how: "A handstand push-up with no wall — you balance and press at the same time. Advanced." },
   ]},
   { key: "arms", day: "Day 4", name: "Arms", ladder: [
-    { ex: "Bench dips (bent knees)", reps: "3 × 10", how: "Hands on a chair behind you, knees bent and feet flat. Bend your elbows to lower your hips, then push back up." },
-    { ex: "Chair dips (legs straight)", reps: "3 × 10", how: "Same as bench dips but with your legs straight out in front, which adds load." },
-    { ex: "Parallel-bar dips", reps: "3 × 8", how: "Support yourself on two parallel bars, arms straight. Lower until your elbows reach ~90°, then press back up." },
+    { ex: "Bench dips (bent knees)", reps: "3 × 10", dia: "dip", how: "Hands on a chair behind you, knees bent and feet flat. Bend your elbows to lower your hips, then push back up." },
+    { ex: "Chair dips (legs straight)", reps: "3 × 10", dia: "dip", how: "Same as bench dips but with your legs straight out in front, which adds load." },
+    { ex: "Parallel-bar dips", reps: "3 × 8", dia: "bardip", how: "Support yourself on two parallel bars, arms straight. Lower until your elbows reach ~90°, then press back up." },
     { ex: "Close-grip / uneven dips", reps: "3 × 6", how: "Dips with hands closer together, or with one hand lower (on a band or step) to load one arm more." },
     { ex: "Ring / assisted one-arm dips", reps: "3 × 5", how: "Dips on gymnastic rings (which wobble, adding difficulty), or working toward a single-arm dip with assistance." },
   ]},
   { key: "core", day: "Day 5", name: "Core", ladder: [
-    { ex: "Knee plank + dead bugs", reps: "3 × 30s", how: "Plank on knees and forearms, body straight. Dead bug: lie on your back and slowly extend the opposite arm and leg while keeping your lower back pressed flat." },
-    { ex: "Full plank + leg raises", reps: "3 × 12", how: "Forearm plank on your toes, body in a straight line. Leg raises: lie on your back and lift straight legs to vertical, lowering slowly without arching." },
-    { ex: "Hanging knee raises", reps: "3 × 10", how: "Hang from a bar and raise your knees toward your chest, then lower with control (no swinging)." },
+    { ex: "Knee plank + dead bugs", reps: "3 × 30s", dia: "plank", how: "Plank on knees and forearms, body straight. Dead bug: lie on your back and slowly extend the opposite arm and leg while keeping your lower back pressed flat." },
+    { ex: "Full plank + leg raises", reps: "3 × 12", dia: "plank", how: "Forearm plank on your toes, body in a straight line. Leg raises: lie on your back and lift straight legs to vertical, lowering slowly without arching." },
+    { ex: "Hanging knee raises", reps: "3 × 10", dia: "kneeraise", how: "Hang from a bar and raise your knees toward your chest, then lower with control (no swinging)." },
     { ex: "Hanging leg raises / L-sit", reps: "3 × 8", how: "Hang and raise straight legs to horizontal. L-sit: supported on your hands, hold both legs straight out in an L shape." },
     { ex: "Dragon flag / front lever", reps: "3 × 5", how: "Advanced. Dragon flag: keep your body rigid and lower it slowly from a shoulder anchor. Front lever: hold your whole body horizontal hanging from a bar." },
   ]},
   { key: "legs", day: "Day 6", name: "Glutes & Legs", ladder: [
     { ex: "Bodyweight squats", reps: "3 × 15", dia: "squat", how: "Feet shoulder-width. Push your hips back and down until your thighs are about parallel to the floor, then stand. Keep heels down and chest up." },
-    { ex: "Lunges / Bulgarian split squats", reps: "3 × 10 / side", how: "Step forward and lower your back knee toward the floor. Bulgarian: rest your rear foot on a bench behind you and sink straight down." },
+    { ex: "Lunges / Bulgarian split squats", reps: "3 × 10 / side", dia: "lunge", how: "Step forward and lower your back knee toward the floor. Bulgarian: rest your rear foot on a bench behind you and sink straight down." },
     { ex: "Assisted pistol squats", reps: "3 × 6 / side", how: "A single-leg squat while lightly holding something for balance, with the other leg extended out in front." },
     { ex: "Pistol squats", reps: "3 × 5 / side", how: "A full single-leg squat with your free leg held straight out in front — all the way down and back up unassisted." },
     { ex: "Shrimp squats", reps: "3 × 4 / side", how: "A single-leg squat where you hold your rear foot behind you and lower that knee to the floor." },
   ]},
   { key: "calves", day: "Day 7", name: "Calves", ladder: [
-    { ex: "Two-leg calf raises", reps: "3 × 20", how: "Stand tall and rise up onto the balls of both feet, then lower slowly back down." },
-    { ex: "Elevated two-leg calf raises", reps: "3 × 15", how: "Same, but with the balls of your feet on a step so your heels can drop below for a fuller stretch." },
-    { ex: "Single-leg calf raises", reps: "3 × 12 / side", how: "Calf raise on one foot at a time (hold something lightly for balance if needed)." },
-    { ex: "Elevated single-leg calf raises", reps: "3 × 12 / side", how: "One-foot calf raise with the ball of your foot on a step for full range of motion." },
-    { ex: "Explosive single-leg calf raises", reps: "3 × 10 / side", how: "Single-leg calf raises done explosively, hopping off the ball of your foot each rep." },
+    { ex: "Two-leg calf raises", reps: "3 × 20", dia: "calfraise", how: "Stand tall and rise up onto the balls of both feet, then lower slowly back down." },
+    { ex: "Elevated two-leg calf raises", reps: "3 × 15", dia: "calfraise", how: "Same, but with the balls of your feet on a step so your heels can drop below for a fuller stretch." },
+    { ex: "Single-leg calf raises", reps: "3 × 12 / side", dia: "calfraise", how: "Calf raise on one foot at a time (hold something lightly for balance if needed)." },
+    { ex: "Elevated single-leg calf raises", reps: "3 × 12 / side", dia: "calfraise", how: "One-foot calf raise with the ball of your foot on a step for full range of motion." },
+    { ex: "Explosive single-leg calf raises", reps: "3 × 10 / side", dia: "calfraise", how: "Single-leg calf raises done explosively, hopping off the ball of your foot each rep." },
   ]},
 ];
 
@@ -179,17 +179,17 @@ const FLEX_LADDER = [
   "FULL front splits (both sides) + middle split + full pancake.",
 ];
 const WARMUP = [
-  { ex: "Arm circles", how: "Stretch your arms out to the sides and draw circles — forward for a bit, then backward — gradually making them bigger." },
-  { ex: "Leg swings", how: "Hold a wall for balance and swing one leg forward and back, then side to side. Switch legs. Keep it relaxed." },
-  { ex: "Cat-cow", how: "On hands and knees, arch your back up toward the ceiling like an angry cat, then dip it down while lifting your head (cow). Move slowly with your breathing." },
-  { ex: "Hip circles", how: "Hands on hips, feet shoulder-width. Make big, slow circles with your hips in one direction, then the other." },
+  { ex: "Arm circles", dia: "armcircles", how: "Stretch your arms out to the sides and draw circles — forward for a bit, then backward — gradually making them bigger." },
+  { ex: "Leg swings", dia: "legswing", how: "Hold a wall for balance and swing one leg forward and back, then side to side. Switch legs. Keep it relaxed." },
+  { ex: "Cat-cow", dia: "catcow", how: "On hands and knees, arch your back up toward the ceiling like an angry cat, then dip it down while lifting your head (cow). Move slowly with your breathing." },
+  { ex: "Hip circles", dia: "hipcircles", how: "Hands on hips, feet shoulder-width. Make big, slow circles with your hips in one direction, then the other." },
   { ex: "Wrist prep", how: "On all fours, gently rock your weight over your hands in different directions to warm up your wrists before push-ups." },
 ];
 const COOLDOWN = [
   { ex: "Pancake (3 min)", dia: "pancake", how: "Sit with your legs wide in a V. Hinge forward from your hips and reach your chest toward the floor, keeping your back as flat as you can. Breathe and ease in." },
-  { ex: "Left split (3 min)", how: "Left leg forward, right leg back, easing your hips toward the floor. Support yourself with hands or blocks. Go only to a strong-but-bearable stretch — never sharp pain." },
-  { ex: "Right split (3 min)", how: "Right leg forward, left leg back, easing your hips toward the floor. Support yourself with hands or blocks. Go only to a strong-but-bearable stretch — never sharp pain." },
-  { ex: "Middle split (3 min)", how: "Feet very wide, toes and knees pointing up. Slide your feet apart and ease your hips down, supporting yourself on your hands. Ease in slowly." },
+  { ex: "Left split (3 min)", dia: "split", how: "Left leg forward, right leg back, easing your hips toward the floor. Support yourself with hands or blocks. Go only to a strong-but-bearable stretch — never sharp pain." },
+  { ex: "Right split (3 min)", dia: "split", how: "Right leg forward, left leg back, easing your hips toward the floor. Support yourself with hands or blocks. Go only to a strong-but-bearable stretch — never sharp pain." },
+  { ex: "Middle split (3 min)", dia: "middlesplit", how: "Feet very wide, toes and knees pointing up. Slide your feet apart and ease your hips down, supporting yourself on your hands. Ease in slowly." },
 ];
 
 const CHARACTERS = {
@@ -317,6 +317,266 @@ function Diagram({ type }) {
       <line x1="85" y1="55" x2="58" y2="86" {...C} />
       <line x1="85" y1="55" x2="112" y2="86" {...C} />
       <text x="85" y="118" {...cap}>legs wide · fold chest down</text>
+    </svg>
+  );
+
+  if (type === "kneepushup") return (
+    <svg viewBox="0 0 240 105" style={box}>
+      <line x1="14" y1="86" x2="118" y2="86" {...C} strokeWidth="2" />
+      <circle cx="30" cy="42" r="9" {...C} />
+      <line x1="38" y1="46" x2="86" y2="70" {...C} />
+      <line x1="86" y1="70" x2="100" y2="86" {...C} />
+      <line x1="100" y1="86" x2="112" y2="74" {...C} />
+      <line x1="48" y1="50" x2="48" y2="85" {...C} />
+      <text x="62" y="100" {...cap}>up — on knees</text>
+      <line x1="134" y1="86" x2="238" y2="86" {...C} strokeWidth="2" />
+      <circle cx="152" cy="58" r="9" {...C} />
+      <line x1="160" y1="61" x2="206" y2="72" {...C} />
+      <line x1="206" y1="72" x2="220" y2="86" {...C} />
+      <line x1="220" y1="86" x2="232" y2="74" {...C} />
+      <polyline points="168,64 162,85 174,85" {...C} />
+      <text x="184" y="100" {...cap}>down — chest low</text>
+    </svg>
+  );
+
+  if (type === "row") return (
+    <svg viewBox="0 0 240 100" style={box}>
+      <line x1="22" y1="20" x2="116" y2="20" {...C} strokeWidth="2" />
+      <line x1="20" y1="84" x2="116" y2="84" {...C} strokeWidth="2" />
+      <line x1="104" y1="84" x2="50" y2="60" {...C} />
+      <circle cx="42" cy="58" r="8" {...C} />
+      <line x1="54" y1="60" x2="58" y2="22" {...C} />
+      <text x="66" y="98" {...cap}>arms straight</text>
+      <line x1="138" y1="20" x2="232" y2="20" {...C} strokeWidth="2" />
+      <line x1="136" y1="84" x2="234" y2="84" {...C} strokeWidth="2" />
+      <line x1="224" y1="84" x2="178" y2="44" {...C} />
+      <circle cx="170" cy="42" r="8" {...C} />
+      <line x1="182" y1="46" x2="184" y2="22" {...C} />
+      <text x="188" y="98" {...cap}>pull chest to bar</text>
+    </svg>
+  );
+
+  if (type === "pullup") return (
+    <svg viewBox="0 0 220 132" style={box}>
+      <line x1="20" y1="16" x2="100" y2="16" {...C} strokeWidth="2" />
+      <circle cx="58" cy="36" r="8" {...C} />
+      <line x1="52" y1="16" x2="54" y2="46" {...C} />
+      <line x1="64" y1="16" x2="62" y2="46" {...C} />
+      <line x1="58" y1="46" x2="58" y2="88" {...C} />
+      <line x1="58" y1="88" x2="50" y2="116" {...C} />
+      <line x1="58" y1="88" x2="66" y2="116" {...C} />
+      <text x="58" y="128" {...cap}>hang</text>
+      <line x1="120" y1="16" x2="200" y2="16" {...C} strokeWidth="2" />
+      <circle cx="160" cy="27" r="8" {...C} />
+      <polyline points="153,16 149,30 160,38" {...C} />
+      <polyline points="167,16 171,30 160,38" {...C} />
+      <line x1="160" y1="38" x2="160" y2="80" {...C} />
+      <line x1="160" y1="80" x2="152" y2="106" {...C} />
+      <line x1="160" y1="80" x2="168" y2="106" {...C} />
+      <text x="160" y="128" {...cap}>chin over bar</text>
+    </svg>
+  );
+
+  if (type === "pike") return (
+    <svg viewBox="0 0 240 108" style={box}>
+      <line x1="14" y1="92" x2="120" y2="92" {...C} strokeWidth="2" />
+      <line x1="36" y1="92" x2="64" y2="40" {...C} />
+      <line x1="64" y1="40" x2="96" y2="92" {...C} />
+      <circle cx="44" cy="66" r="8" {...C} />
+      <text x="64" y="105" {...cap}>hips high (V)</text>
+      <line x1="134" y1="92" x2="240" y2="92" {...C} strokeWidth="2" />
+      <line x1="182" y1="46" x2="214" y2="92" {...C} />
+      <line x1="182" y1="46" x2="168" y2="70" {...C} />
+      <line x1="168" y1="70" x2="150" y2="90" {...C} />
+      <circle cx="162" cy="82" r="7" {...C} />
+      <text x="186" y="105" {...cap}>head dips down</text>
+    </svg>
+  );
+
+  if (type === "dip") return (
+    <svg viewBox="0 0 240 118" style={box}>
+      <line x1="14" y1="46" x2="52" y2="46" {...C} strokeWidth="2" />
+      <line x1="52" y1="46" x2="52" y2="72" {...C} strokeWidth="2" />
+      <circle cx="80" cy="30" r="8" {...C} />
+      <line x1="80" y1="38" x2="84" y2="64" {...C} />
+      <line x1="78" y1="44" x2="50" y2="46" {...C} />
+      <line x1="84" y1="64" x2="118" y2="66" {...C} />
+      <line x1="118" y1="66" x2="118" y2="96" {...C} />
+      <text x="74" y="112" {...cap}>up — arms straight</text>
+      <line x1="138" y1="46" x2="176" y2="46" {...C} strokeWidth="2" />
+      <line x1="176" y1="46" x2="176" y2="72" {...C} strokeWidth="2" />
+      <circle cx="206" cy="48" r="8" {...C} />
+      <line x1="206" y1="56" x2="208" y2="80" {...C} />
+      <polyline points="174,46 184,42 206,58" {...C} />
+      <line x1="208" y1="80" x2="226" y2="82" {...C} />
+      <line x1="226" y1="82" x2="226" y2="104" {...C} />
+      <text x="196" y="112" {...cap}>down — hips drop</text>
+    </svg>
+  );
+
+  if (type === "bardip") return (
+    <svg viewBox="0 0 240 120" style={box}>
+      <line x1="30" y1="54" x2="106" y2="54" {...C} strokeWidth="2" />
+      <circle cx="70" cy="44" r="7" {...C} />
+      <line x1="70" y1="54" x2="70" y2="74" {...C} />
+      <line x1="70" y1="74" x2="72" y2="104" {...C} />
+      <line x1="72" y1="104" x2="62" y2="118" {...C} />
+      <text x="68" y="115" {...cap}>up</text>
+      <line x1="150" y1="54" x2="226" y2="54" {...C} strokeWidth="2" />
+      <circle cx="190" cy="62" r="7" {...C} />
+      <polyline points="190,54 185,72 192,76" {...C} />
+      <line x1="192" y1="76" x2="194" y2="106" {...C} />
+      <line x1="194" y1="106" x2="184" y2="118" {...C} />
+      <text x="190" y="115" {...cap}>down — elbows 90°</text>
+    </svg>
+  );
+
+  if (type === "plank") return (
+    <svg viewBox="0 0 210 88" style={box}>
+      <line x1="12" y1="72" x2="198" y2="72" {...C} strokeWidth="2" />
+      <circle cx="44" cy="42" r="8" {...C} />
+      <line x1="52" y1="46" x2="124" y2="60" {...C} />
+      <line x1="124" y1="60" x2="174" y2="70" {...C} />
+      <line x1="174" y1="70" x2="182" y2="66" {...C} />
+      <line x1="50" y1="46" x2="50" y2="72" {...C} />
+      <line x1="50" y1="72" x2="72" y2="72" {...C} />
+      <text x="105" y="85" {...cap}>hold straight · hips level</text>
+    </svg>
+  );
+
+  if (type === "kneeraise") return (
+    <svg viewBox="0 0 180 142" style={box}>
+      <line x1="40" y1="16" x2="140" y2="16" {...C} strokeWidth="2" />
+      <circle cx="90" cy="34" r="8" {...C} />
+      <line x1="84" y1="16" x2="86" y2="44" {...C} />
+      <line x1="96" y1="16" x2="94" y2="44" {...C} />
+      <line x1="90" y1="44" x2="90" y2="82" {...C} />
+      <line x1="90" y1="82" x2="120" y2="72" {...C} />
+      <line x1="120" y1="72" x2="116" y2="98" {...C} />
+      <text x="90" y="118" {...cap}>raise knees</text>
+      <text x="90" y="134" {...cap}>to chest</text>
+    </svg>
+  );
+
+  if (type === "lunge") return (
+    <svg viewBox="0 0 170 120" style={box}>
+      <line x1="10" y1="104" x2="160" y2="104" {...C} strokeWidth="2" />
+      <circle cx="78" cy="28" r="9" {...C} />
+      <line x1="78" y1="37" x2="80" y2="66" {...C} />
+      <line x1="80" y1="66" x2="106" y2="80" {...C} />
+      <line x1="106" y1="80" x2="106" y2="104" {...C} />
+      <line x1="80" y1="66" x2="54" y2="92" {...C} />
+      <line x1="54" y1="92" x2="40" y2="104" {...C} />
+      <line x1="78" y1="46" x2="92" y2="62" {...C} />
+      <text x="85" y="118" {...cap}>front knee 90° · back knee low</text>
+    </svg>
+  );
+
+  if (type === "calfraise") return (
+    <svg viewBox="0 0 210 118" style={box}>
+      <line x1="10" y1="104" x2="200" y2="104" {...C} strokeWidth="2" />
+      <circle cx="55" cy="34" r="9" {...C} />
+      <line x1="55" y1="43" x2="55" y2="80" {...C} />
+      <line x1="55" y1="80" x2="50" y2="104" {...C} />
+      <line x1="55" y1="80" x2="60" y2="104" {...C} />
+      <text x="55" y="116" {...cap}>heels down</text>
+      <line x1="96" y1="60" x2="120" y2="60" {...C} />
+      <polyline points="112,53 122,60 112,67" {...C} />
+      <circle cx="160" cy="24" r="9" {...C} />
+      <line x1="160" y1="33" x2="160" y2="70" {...C} />
+      <line x1="160" y1="70" x2="156" y2="92" {...C} />
+      <line x1="156" y1="92" x2="160" y2="104" {...C} />
+      <line x1="160" y1="70" x2="164" y2="92" {...C} />
+      <line x1="164" y1="92" x2="168" y2="104" {...C} />
+      <text x="160" y="116" {...cap}>up on toes</text>
+    </svg>
+  );
+
+  if (type === "armcircles") return (
+    <svg viewBox="0 0 150 122" style={box}>
+      <circle cx="75" cy="26" r="9" {...C} />
+      <line x1="75" y1="35" x2="75" y2="82" {...C} />
+      <line x1="75" y1="82" x2="63" y2="114" {...C} />
+      <line x1="75" y1="82" x2="87" y2="114" {...C} />
+      <line x1="75" y1="46" x2="42" y2="40" {...C} />
+      <line x1="75" y1="46" x2="108" y2="40" {...C} />
+      <circle cx="38" cy="40" r="11" {...C} strokeDasharray="3 4" />
+      <circle cx="112" cy="40" r="11" {...C} strokeDasharray="3 4" />
+      <polyline points="44,31 38,28 35,34" {...C} />
+      <text x="75" y="120" {...cap}>circle arms</text>
+    </svg>
+  );
+
+  if (type === "hipcircles") return (
+    <svg viewBox="0 0 150 132" style={box}>
+      <circle cx="75" cy="24" r="9" {...C} />
+      <line x1="75" y1="33" x2="75" y2="74" {...C} />
+      <line x1="75" y1="74" x2="63" y2="116" {...C} />
+      <line x1="75" y1="74" x2="87" y2="116" {...C} />
+      <line x1="75" y1="44" x2="60" y2="70" {...C} />
+      <line x1="75" y1="44" x2="90" y2="70" {...C} />
+      <ellipse cx="75" cy="76" rx="26" ry="12" {...C} strokeDasharray="3 4" />
+      <polyline points="95,70 102,76 95,82" {...C} />
+      <text x="75" y="130" {...cap}>circle hips</text>
+    </svg>
+  );
+
+  if (type === "legswing") return (
+    <svg viewBox="0 0 160 128" style={box}>
+      <line x1="22" y1="10" x2="22" y2="120" {...C} strokeWidth="2" />
+      <line x1="10" y1="118" x2="150" y2="118" {...C} strokeWidth="2" />
+      <circle cx="72" cy="28" r="9" {...C} />
+      <line x1="72" y1="37" x2="72" y2="80" {...C} />
+      <line x1="72" y1="80" x2="72" y2="118" {...C} />
+      <line x1="72" y1="46" x2="26" y2="46" {...C} />
+      <line x1="72" y1="80" x2="112" y2="96" {...C} />
+      <line x1="72" y1="80" x2="44" y2="100" {...C} strokeDasharray="3 4" />
+      <polyline points="104,90 114,96 106,102" {...C} />
+      <text x="86" y="126" {...cap}>swing leg front & back</text>
+    </svg>
+  );
+
+  if (type === "catcow") return (
+    <svg viewBox="0 0 240 112" style={box}>
+      <line x1="12" y1="94" x2="120" y2="94" {...C} strokeWidth="2" />
+      <path d="M48 58 Q70 40 92 58" {...C} />
+      <line x1="48" y1="58" x2="40" y2="94" {...C} />
+      <line x1="92" y1="58" x2="98" y2="94" {...C} />
+      <circle cx="34" cy="68" r="8" {...C} />
+      <text x="66" y="108" {...cap}>cat — arch up</text>
+      <line x1="132" y1="94" x2="240" y2="94" {...C} strokeWidth="2" />
+      <path d="M168 56 Q190 74 212 56" {...C} />
+      <line x1="168" y1="56" x2="160" y2="94" {...C} />
+      <line x1="212" y1="56" x2="218" y2="94" {...C} />
+      <circle cx="154" cy="50" r="8" {...C} />
+      <text x="186" y="108" {...cap}>cow — dip, head up</text>
+    </svg>
+  );
+
+  if (type === "split") return (
+    <svg viewBox="0 0 180 102" style={box}>
+      <line x1="10" y1="88" x2="170" y2="88" {...C} strokeWidth="2" />
+      <line x1="88" y1="80" x2="152" y2="86" {...C} />
+      <line x1="88" y1="80" x2="24" y2="86" {...C} />
+      <line x1="88" y1="80" x2="88" y2="44" {...C} />
+      <circle cx="88" cy="36" r="9" {...C} />
+      <line x1="88" y1="52" x2="72" y2="66" {...C} />
+      <line x1="88" y1="52" x2="104" y2="66" {...C} />
+      <text x="90" y="100" {...cap}>front split — legs in line</text>
+    </svg>
+  );
+
+  if (type === "middlesplit") return (
+    <svg viewBox="0 0 180 110" style={box}>
+      <line x1="90" y1="64" x2="18" y2="96" {...C} />
+      <line x1="90" y1="64" x2="162" y2="96" {...C} />
+      <line x1="12" y1="96" x2="26" y2="96" {...C} />
+      <line x1="154" y1="96" x2="168" y2="96" {...C} />
+      <line x1="90" y1="64" x2="90" y2="34" {...C} />
+      <circle cx="90" cy="26" r="9" {...C} />
+      <line x1="90" y1="42" x2="74" y2="56" {...C} />
+      <line x1="90" y1="42" x2="106" y2="56" {...C} />
+      <text x="90" y="108" {...cap}>middle split — legs wide</text>
     </svg>
   );
 
